@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+html,
+body,
+#app {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
+}
+
+.slide {
+  @apply relative flex flex-col items-center justify-center w-full h-full text-white;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.slide-overlay {
+  @apply absolute inset-0 bg-black/50;
+}
+
+.slide-content {
+  @apply relative z-10 flex flex-col items-center justify-center gap-6 p-8 text-center max-w-2xl;
+}
+
+.btn {
+  @apply font-semibold rounded-xl transition-all duration-200 shadow-lg cursor-pointer;
+  @apply bg-gradient-to-r from-indigo-500 to-purple-500 text-white;
+  @apply px-6 py-3;
+  @apply hover:from-indigo-600 hover:to-purple-600;
+  @apply disabled:opacity-40 disabled:cursor-not-allowed;
+}
+
+.btn-large {
+  @apply px-8 py-4 text-lg;
+}
+
+.quiz-answer {
+  @apply flex items-center gap-4 w-full p-4 bg-white/10 border-2 border-white/20 rounded-xl text-white text-left cursor-pointer transition-all duration-200 min-h-[60px];
+  @apply hover:bg-white/20;
+}
+
+.quiz-answer.selected {
+  @apply bg-indigo-500/30 border-indigo-500;
+}
+
+.quiz-answer.correct {
+  @apply bg-green-500/30 border-green-500 pointer-events-none;
+}
+
+.quiz-answer.incorrect {
+  @apply bg-red-500/30 border-red-500 pointer-events-none;
+}
+
+.quiz-answer.disabled {
+  @apply pointer-events-none opacity-60;
+}

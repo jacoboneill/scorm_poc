@@ -1,0 +1,24 @@
+{
+  "name": "scorm-course",
+  "version": "1.0.0",
+  "description": "SCORM 2004 course built with Preact and Vite",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build:html": "vite build",
+    "build": "npm run build:html && zip -rj ./dist/scorm.zip dist/html",
+    "docs": "for f in ./docs/*.typ; do typst compile \"$f\"; done",
+    "clean": "rm -rf ./node_modules ./dist ./docs/*.pdf"
+  },
+  "dependencies": {
+    "preact": "^10.28.2",
+    "scorm-again": "^3.0.0"
+  },
+  "devDependencies": {
+    "@preact/preset-vite": "^2.10.3",
+    "@tailwindcss/vite": "^4.1.18",
+    "tailwindcss": "^4.1.18",
+    "vite": "^7.3.1"
+  }
+}
