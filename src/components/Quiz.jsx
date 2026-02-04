@@ -33,12 +33,12 @@ export default function Quiz({ questions, graded, passRate }) {
   };
 
   return (
-    <div class="flex flex-col gap-6 w-full max-w-xl">
-      <div class="text-sm text-white/60 uppercase tracking-wider">
+    <div class="quiz-container">
+      <div class="quiz-progress">
         Question {currentQ + 1} of {total}
       </div>
-      <h2 class="text-2xl font-bold text-white">{questionText}</h2>
-      <div class="flex flex-col gap-3">
+      <h2 class="quiz-question">{questionText}</h2>
+      <div class="quiz-options">
         {questionData.options.map((option, idx) => (
           <button
             key={idx}
@@ -46,14 +46,14 @@ export default function Quiz({ questions, graded, passRate }) {
             onClick={() => selectAnswer(questionId, idx)}
             disabled={submitted}
           >
-            <span class="w-8 h-8 flex items-center justify-center rounded-full bg-white/20 text-sm font-bold shrink-0">
+            <span class="quiz-answer-letter">
               {String.fromCharCode(65 + idx)}
             </span>
             <span>{option}</span>
           </button>
         ))}
       </div>
-      <div class="flex gap-4 justify-end mt-2">
+      <div class="quiz-actions">
         {!submitted && selected !== undefined && (
           <Button onClick={() => submitAnswer(questionId)}>Submit</Button>
         )}

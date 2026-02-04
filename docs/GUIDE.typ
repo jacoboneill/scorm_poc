@@ -19,7 +19,7 @@
   #v(12pt)
   #text(size: 10pt, fill: luma(120))[
     This document assumes familiarity with HTML, CSS, and JavaScript. \
-    No prior knowledge of Vite, Preact, Tailwind CSS, or SCORM is required.
+    No prior knowledge of Vite, Preact, or SCORM is required.
   ]
 ]
 
@@ -56,24 +56,23 @@ each one does and why it is here.
 Vite is a build tool. It does two things:
 
 + *Dev server* — When you run `npm run dev`, Vite starts a local web server
-  that serves your source files directly to the browser. It transforms JSX and
-  CSS on the fly so you see changes instantly without a manual build step.
+  that serves your source files directly to the browser. It transforms JSX on
+  the fly so you see changes instantly without a manual build step.
 
 + *Production build* — When you run `npm run build:html`, Vite reads every
   source file, resolves all `import` statements, compiles JSX into plain
-  JavaScript, processes Tailwind CSS into a normal stylesheet, and writes the
-  result into the `dist/` folder as a handful of static files.
+  JavaScript, and writes the result into the `dist/` folder as a handful of
+  static files.
 
-Without Vite, you would need to manually concatenate scripts, run a CSS
-preprocessor, and set up a dev server yourself. Vite replaces all of that with
-a single config file.
+Without Vite, you would need to manually concatenate scripts and set up a dev
+server yourself. Vite replaces all of that with a single config file.
 
 === How the Vite config works
 
 ```js
 // vite.config.js
 export default defineConfig({
-  plugins: [preact(), tailwindcss(), scormManifest(moduleConfig)],
+  plugins: [preact(), scormManifest(moduleConfig)],
   root: "src",
   base: "./",
   publicDir: "../public",
@@ -104,8 +103,8 @@ Key settings:
   `dist/assets/` subfolder. SCORM packages work best with a flat structure.
 / `entryFileNames` / `assetFileNames`: Forces predictable output names
   (`app.js`, `index.css`) instead of hashed filenames like `app-3f2a1b.js`.
-/ `plugins`: Three plugins run during the build — Preact JSX compilation,
-  Tailwind CSS processing, and the custom SCORM manifest generator.
+/ `plugins`: Two plugins run during the build — Preact JSX compilation and the
+  custom SCORM manifest generator.
 
 // ─────────────────────────────────────────────
 == Preact — UI Framework
@@ -192,56 +191,6 @@ actions like `next()`, `selectAnswer()`, or `finish()` without the parent
 having to pass them down explicitly.
 
 // ─────────────────────────────────────────────
-== Tailwind CSS — Utility-First Styling
-// ─────────────────────────────────────────────
-
-Tailwind is a CSS framework where you style elements by applying small utility
-classes directly in the markup rather than writing custom CSS rules.
-
-```jsx
-// Traditional CSS approach:
-// .title { font-size: 2.25rem; font-weight: 900; }
-// <h1 class="title">...</h1>
-
-// Tailwind approach:
-<h1 class="text-4xl font-black">...</h1>
-```
-
-Each class maps to a single CSS property:
-
-#table(
-  columns: (auto, 1fr),
-  inset: 6pt,
-  [*Class*], [*CSS*],
-  [`text-4xl`], [`font-size: 2.25rem; line-height: 2.5rem`],
-  [`font-black`], [`font-weight: 900`],
-  [`bg-white/10`], [`background-color: rgb(255 255 255 / 0.1)`],
-  [`p-8`], [`padding: 2rem`],
-  [`flex`], [`display: flex`],
-  [`gap-6`], [`gap: 1.5rem`],
-  [`rounded-xl`], [`border-radius: 0.75rem`],
-)
-
-Tailwind scans your source files at build time and only generates CSS for the
-classes you actually use, so the output is small.
-
-=== Custom classes with `@apply`
-
-For styles reused in multiple places, `index.css` defines named classes that
-compose Tailwind utilities:
-
-```css
-.btn {
-  @apply font-semibold rounded-xl transition-all duration-200 shadow-lg
-         cursor-pointer bg-gradient-to-r from-indigo-500 to-purple-500
-         text-white px-6 py-3;
-}
-```
-
-`@apply` inlines those Tailwind utilities into the `.btn` rule at build time.
-The result is a normal CSS class.
-
-// ─────────────────────────────────────────────
 == scorm-again — SCORM Runtime
 // ─────────────────────────────────────────────
 
@@ -284,7 +233,7 @@ scorm-test/
 ├── src/
 │   ├── index.html              ← HTML shell (Vite entry point)
 │   ├── index.jsx               ← mounts the Preact app
-│   ├── index.css               ← Tailwind import + custom classes
+│   ├── index.css               ← vanilla CSS styles
 │   ├── App.jsx                 ← course structure (which slides, in what order)
 │   ├── scorm.js                ← SCORM API wrapper
 │   │
@@ -354,9 +303,9 @@ When you run `npm run build`, three things happen in sequence:
 
 + *Vite build* (`vite build`) \
   Vite reads `src/index.html`, follows the `<script>` tag to `index.jsx`,
-  resolves every `import`, compiles JSX to JavaScript, processes Tailwind CSS,
-  tree-shakes unused code, and writes the result to `dist/`. Files in `public/`
-  are copied unchanged.
+  resolves every `import`, compiles JSX to JavaScript, bundles CSS, tree-shakes
+  unused code, and writes the result to `dist/`. Files in `public/` are copied
+  unchanged.
 
 + *Manifest generation* (Vite plugin) \
   After Vite writes the bundle, the `writeBundle` hook in the SCORM manifest
@@ -558,9 +507,9 @@ export default function IntroSlide() {
 
   return (
     <Slide bg="./bg_welcome.png">
-      <img src="./logo.svg" alt="Logo" class="w-24 h-24 mb-4" />
-      <h1 class="text-4xl font-black">Health and Safety Training</h1>
-      <p class="text-lg text-white/80">
+      <img src="./logo.svg" alt="Logo" class="slide-logo" />
+      <h1 class="slide-title">Health and Safety Training</h1>
+      <p class="slide-subtitle">
         Complete this course to learn essential workplace safety practices.
       </p>
       <Button large onClick={next}>
@@ -592,8 +541,8 @@ plain dark background with no overlay.
 
     return (
       <Slide bg="./bg.png">
-        <h2 class="text-3xl font-bold">Safety Tips</h2>
-        <ul class="text-left text-lg text-white/80 list-disc pl-6">
+        <h2 class="slide-title-md">Safety Tips</h2>
+        <ul class="slide-subtitle" style="text-align: left; list-style: disc; padding-left: 1.5rem;">
           <li>Always wear your PPE</li>
           <li>Report hazards immediately</li>
           <li>Know your emergency exits</li>
@@ -689,27 +638,66 @@ To replace a background image, drop the new image in `public/` and update the
 == Customising Styles
 // ─────────────────────────────────────────────
 
-=== Inline (per-element)
+All styles are defined in `src/index.css` using vanilla CSS. The stylesheet
+uses semantic class names that map to specific UI components.
 
-Add Tailwind classes directly to the JSX element:
+=== Available CSS classes
 
-```jsx
-<h1 class="text-4xl font-black text-yellow-300">New Title</h1>
-```
+#table(
+  columns: (auto, 1fr),
+  inset: 6pt,
+  [*Class*], [*Purpose*],
+  [`.slide`], [Full-viewport slide container with centred content],
+  [`.slide-overlay`], [Semi-transparent dark overlay for background images],
+  [`.slide-content`], [Content wrapper with padding and max-width],
+  [`.slide-title`], [Large title (2.25rem, weight 900)],
+  [`.slide-title-lg`], [Medium-large title (1.875rem, weight 900)],
+  [`.slide-title-md`], [Medium title (1.5rem, weight 700)],
+  [`.slide-subtitle`], [Subtitle text with reduced opacity],
+  [`.slide-logo`], [Logo sizing (6rem × 6rem)],
+  [`.btn`], [Primary button with gradient background],
+  [`.btn-large`], [Larger button variant],
+  [`.video-player`], [Video element with rounded corners and shadow],
+  [`.quiz-*`], [Quiz-related styles (container, progress, question, options, answer, actions)],
+  [`.score-*`], [Score display styles (container, value, status, passrate)],
+)
 
-=== Global (reusable classes)
+=== Modifying styles
 
-Edit `src/index.css`. The existing custom classes (`.btn`, `.quiz-answer`,
-`.slide`, etc.) use `@apply` to compose Tailwind utilities. You can modify
-these or add new ones:
+Edit `src/index.css` directly. For example, to change the button colour:
 
 ```css
-.btn-danger {
-  @apply bg-red-600 text-white px-6 py-3 rounded-xl font-semibold;
+.btn {
+  background: linear-gradient(to right, #10b981, #059669); /* green gradient */
+}
+
+.btn:hover {
+  background: linear-gradient(to right, #059669, #047857);
 }
 ```
 
-Then use it in JSX: `<button class="btn-danger">Delete</button>`.
+=== Adding inline styles
+
+For one-off styling, use the `style` prop in JSX:
+
+```jsx
+<h1 class="slide-title" style="color: #fbbf24;">Yellow Title</h1>
+```
+
+=== Adding new classes
+
+Add new rules to `index.css`:
+
+```css
+.highlight-box {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+```
+
+Then use it in JSX: `<div class="highlight-box">...</div>`.
 
 // ═════════════════════════════════════════════
 = The Vite Plugin (Manifest Generator)
@@ -882,10 +870,6 @@ The following describes how data moves through the system at runtime:
 / *Build fails with "Missing specifier" for scorm-again*: The import path
   changed in v3. Use `import { Scorm2004API } from "scorm-again/scorm2004"`
   (named export from a subpath), not the old `scorm-again/src/Scorm2004API`.
-
-/ *Styles not applying*: Make sure `@import "tailwindcss"` is at the top of
-  `index.css`. Tailwind v4 uses this import syntax instead of the older
-  `@tailwind base; @tailwind components; @tailwind utilities;`.
 
 / *LMS cannot import the zip*: Verify that `imsmanifest.xml` is at the root of
   the zip, not inside a subfolder. Run `unzip -l scorm.zip` to check.

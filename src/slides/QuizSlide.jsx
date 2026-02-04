@@ -7,7 +7,7 @@ export default function QuizSlide({ questions, graded, passRate }) {
 
   return (
     <Slide bg="./bg.png">
-      <h2 class="text-2xl font-bold mb-2">Knowledge Check</h2>
+      <h2 class="slide-title-md">Knowledge Check</h2>
       <Quiz questions={questions} graded={graded} passRate={passRate} />
       {answeredAll && (
         <Button large onClick={next}>

@@ -2,18 +2,14 @@ export default function Score({ score, passRate }) {
   const passed = score >= passRate;
 
   return (
-    <div class="flex flex-col items-center gap-4">
-      <div
-        class={`text-6xl font-black ${passed ? "text-green-400" : "text-red-400"}`}
-      >
+    <div class="score-container">
+      <div class={`score-value ${passed ? "passed" : "failed"}`}>
         {score}%
       </div>
-      <div
-        class={`text-xl font-semibold ${passed ? "text-green-300" : "text-red-300"}`}
-      >
+      <div class={`score-status ${passed ? "passed" : "failed"}`}>
         {passed ? "Passed" : "Failed"}
       </div>
-      <div class="text-white/60 text-sm">Pass rate: {passRate}%</div>
+      <div class="score-passrate">Pass rate: {passRate}%</div>
     </div>
   );
 }

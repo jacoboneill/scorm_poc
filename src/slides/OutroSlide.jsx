@@ -7,7 +7,7 @@ export default function OutroSlide() {
 
   return (
     <Slide bg="./bg.png">
-      <h2 class="text-3xl font-black">Course Complete</h2>
+      <h2 class="slide-title-lg">Course Complete</h2>
       <Score score={score} passRate={moduleConfig.passRate} />
       <Button large onClick={finish}>
         Complete Course

@@ -7,7 +7,7 @@ export default function VideoSlide({ src }) {
 
   return (
     <Slide bg="./bg.png">
-      <h2 class="text-2xl font-bold">Watch the Training Video</h2>
+      <h2 class="slide-title-md">Watch the Training Video</h2>
       <Video src={src} onEnded={() => markMediaComplete(mediaId)} />
       <Button onClick={next} disabled={!watched}>
         {watched ? "Continue" : "Watch the video to continue"}

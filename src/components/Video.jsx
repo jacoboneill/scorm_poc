@@ -8,7 +8,7 @@ export default function Video({ src, onEnded }) {
       ref={ref}
       src={src}
       controls
-      class="w-full max-w-2xl rounded-xl shadow-2xl"
+      class="video-player"
       onEnded={onEnded}
     />
   );
