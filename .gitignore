@@ -1,5 +1,0 @@
-.claude
-*.lock
-node_modules
-*.pdf
-dist
