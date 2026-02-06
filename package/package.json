@@ -1,0 +1,30 @@
+{
+  "name": "@oneill-technology-solutions/scorm-framework",
+  "version": "1.0.0",
+  "description": "SCORM 2004 course framework built with Preact",
+  "type": "module",
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./plugin": "./plugin/vite-plugin-scorm-manifest.js",
+    "./styles": "./src/index.css"
+  },
+  "files": [
+    "src",
+    "plugin"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/oneill-technology-solutions/scorm-framework.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "peerDependencies": {
+    "preact": "^10.0.0",
+    "vite": "^7.0.0"
+  },
+  "dependencies": {
+    "scorm-again": "^3.0.0"
+  }
+}

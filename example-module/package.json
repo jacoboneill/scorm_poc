@@ -1,0 +1,20 @@
+{
+  "name": "health-and-safety-module",
+  "version": "1.0.0",
+  "description": "Health and Safety Training SCORM Module",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build:html": "vite build",
+    "build": "yarn build:html && zip -rj ./dist/scorm.zip dist/html"
+  },
+  "dependencies": {
+    "@anthropic-jdo/scorm-framework": "^1.0.0",
+    "preact": "^10.28.2"
+  },
+  "devDependencies": {
+    "@preact/preset-vite": "^2.10.3",
+    "vite": "^7.3.1"
+  }
+}
